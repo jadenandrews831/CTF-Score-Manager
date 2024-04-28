@@ -1,11 +1,17 @@
 {
   "name": "ctf-score-manager",
   "version": "1.0.0",
-  "description": "A tool to launch OWASP Juice Shop Virtual Machines, fetch their current scores, and display details of the event on a webpage",
-  "main": "index.js",
+  "description": "A score manager for the Juice Shop Vulnerable eCommerce Shop",
+  "main": "server.js",
   "scripts": {
-    "test": "test"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jaden Andrews and Adrian Austin",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "system-commands": "^1.1.7"
+  } 
 }

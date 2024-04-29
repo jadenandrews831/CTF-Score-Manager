@@ -9,7 +9,7 @@ function getScore() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             const data = xhr.response
             console.log("getScore >>> ", data)
-            document.querySelector('#score').innerHTML = data["score"]
+            document.querySelector('#score').innerHTML = JSON.stringify(data["score"])
         }
     }
 }

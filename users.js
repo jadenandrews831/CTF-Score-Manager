@@ -40,6 +40,39 @@ class Users{
     })
   }
 
+  getIPs(){
+    return new Promise(send => {
+      this.db.all(`
+        SELECT DISTINCT vm_ip FROM Points
+      `, (err, ips) => {
+        if (err){
+          console.log(err)
+          send(undefined)
+        } else {
+          console.log(ips)
+          send(ips)
+        }
+      })
+    })
+  }
+
+  getIPPoints(ip){
+    return new Promise(send => {
+      this.db.all(`
+      SELECT * FROM Points WHERE vm_ip=@ip
+      `, {"@ip": ip}, (err, pts) => {
+        if (err) {
+          console.log(err)
+          send(err)
+        }
+        else {
+          console.log(pts)
+          send(pts)
+        }
+      })
+    })
+  }
+
   getPoints() {
     return new Promise(send => {
       this.db.all(`

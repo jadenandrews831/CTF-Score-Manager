@@ -25,14 +25,31 @@ app.get('/index.js', (req, res) => {
 })
 
 app.get('/score', (req, res) => {
-  let score = 0
-
-  res.json({score: score})
+  getScore(req, res)
 })
 
 app.post("/upload", (req, res) => {
   upload(req, res)
 })
+
+async function getScore(req, res) {
+  let score = 0
+
+  let total_score = await db.getPoints()
+  let ips = await db.getIPs()
+  console.log("IPs:", ips )
+  score = {}
+
+  for (let i = 0; i < ips.length; i++){
+    let pts = await db.getIPPoints(ips[i]["vm_ip"])
+    console.log("getIPPoints >>>", pts)
+    score[ips[i]["vm_ip"]] = pts
+    
+  }
+  console.log("SCORE >>>",JSON.stringify(score))
+
+  res.json({score: score})
+}
 
 async function upload(req, res){
   console.log("Req.query['data'] >>",req.query["data"])

@@ -10,8 +10,9 @@
   "author": "Jaden Andrews and Adrian Austin",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
-    "sqlite3": "^5.1.6",
+    "sqlite3": "^5.1.7",
     "system-commands": "^1.1.7"
-  } 
+  }
 }

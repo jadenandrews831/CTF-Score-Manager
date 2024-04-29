@@ -10,7 +10,6 @@ class Users{
       if (err) {
         return console.error(err.message);
       }
-      console.log(`Connected to ${this.db_name}`);
     });
     this.createTable();
   }
@@ -20,13 +19,59 @@ class Users{
     CREATE TABLE IF NOT EXISTS Points (
         points_val INTEGER not null,
         challenge_name TEXT not null,
-        vm_num INTEGER not null,
+        vm_ip TEXT not null,
         date TEXT not null
     );
         `, ()  => {
-            console.log("table created");
+            // 8
     });
 
+  }
+
+  addPoints(points){
+    this.db.all(`
+    INSERT INTO Points (points_val, challenge_name, vm_ip, date) VALUES (@val, @name, @ip, @date);
+    `, {'@val': points["val"], '@name': points['name'], '@ip': points['ip'], '@date': points['date']}, (err) => {
+      if (err){
+        console.log(err)
+      } else {
+        console.log('Points added')
+      }
+    })
+  }
+
+  getPoints() {
+    return new Promise(send => {
+      this.db.all(`
+      SELECT * FROM Points
+      `, (err, pts) => {
+
+        console.log("addPoints >>> ", pts)
+        if (err) {
+          console.log(err)
+          send(undefined)
+        } else {
+          console.log("addPoints >>> Points Added")
+          send(pts)
+        }
+      })  
+    })
+  }
+
+  checkPoints(pkg) {
+    return new Promise(send => {
+      this.db.all(`
+      SELECT * FROM Points WHERE date=@date AND vm_ip=@ip
+      `, {"@date": pkg['date'], "@ip": pkg['ip']}, (err, pts) => {
+        console.log("checkPoints >>> ", pts, pkg)
+        if (err) {
+          console.log(err)
+          send(undefined)
+        } else {
+          send(pts)
+        }
+      })
+    })
   }
 }
 

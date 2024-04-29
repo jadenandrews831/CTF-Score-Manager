@@ -61,8 +61,8 @@ class Users{
   checkPoints(pkg) {
     return new Promise(send => {
       this.db.all(`
-      SELECT * FROM Points WHERE date=@date AND vm_ip=@ip
-      `, {"@date": pkg['date'], "@ip": pkg['ip']}, (err, pts) => {
+      SELECT * FROM Points WHERE date=@date AND vm_ip=@ip AND challenge_name=@name
+      `, {"@date": pkg['date'], "@ip": pkg['ip'], "@name":pkg['name']}, (err, pts) => {
         console.log("checkPoints >>> ", pts, pkg)
         if (err) {
           console.log(err)

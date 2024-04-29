@@ -10,8 +10,24 @@ const db = new users.Users('users.db');
 
 const app = express()
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next();
+})
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname+"/src/index.html")
+})
+
+app.get('/index.js', (req, res) => {
+  res.sendFile(__dirname+"/src/index.js")
+})
+
+app.get('/score', (req, res) => {
+  let score = 0
+
+  res.json({score: score})
 })
 
 app.post("/upload", (req, res) => {
@@ -32,9 +48,11 @@ async function upload(req, res){
     let date = data[i][3]
 
     let points = {name: name, val: val, ip: ip, date: date}
-    const check = await db.checkPoints({ip: ip, date: date})
+    const check = await db.checkPoints({ip: ip, date: date, name: name})
     console.log("Check:", check)
-    if (check != []) {continue}
+    console.log(check.length == 0, check)
+    console.log('I:', i)
+    if (check.length > 0) {continue}
     db.addPoints(points)
     
   }
